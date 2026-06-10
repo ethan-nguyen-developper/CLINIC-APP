@@ -7,10 +7,6 @@ window.$ = window.jQuery = $;
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 
-import 'admin-lte/dist/css/adminlte.min.css';
-import 'admin-lte/dist/js/adminlte.min.js';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-
 createInertiaApp({
     resolve: name => {
         return import(`./Pages/${name}.vue`);
