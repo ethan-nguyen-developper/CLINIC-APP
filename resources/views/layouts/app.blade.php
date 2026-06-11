@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-    @vite([
-        'resources/js/app.js',
-        'resources/js/adminlte.js'
-    ])
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    @vite(['resources/js/app.js', 'resources/js/adminlte.js'])
+    @inertiaHead
+  </head>
+  <body>
     @inertia
-</body>
+  </body>
 </html>
