@@ -8,10 +8,18 @@ use Inertia\Inertia;
 
 class ClinicController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = Clinic::query();
+
+        if ($request->search) {
+            $query->where('name', 'like', "%{$request->search}%")
+                ->orWhere('address', 'like', "%{$request->search}%");
+        }
+
         return Inertia::render('Clinics/Index', [
-            'clinics' => Clinic::latest()->get()
+            'clinics' => $query->latest()->paginate(10),
+            'filters' => $request->only('search')
         ]);
     }
 

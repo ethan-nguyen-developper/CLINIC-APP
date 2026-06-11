@@ -1,13 +1,17 @@
 <template>
   <AuthenticatedLayout>
-    <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+    <h1>Dashboard</h1>
 
-    <div class="bg-white p-4 rounded shadow">
-      Bienvenue 👋 tu es connecté !
+    <div>
+      <p>Total Clinics: {{ stats.clinics }}</p>
     </div>
   </AuthenticatedLayout>
 </template>
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+
+defineProps({
+  stats: Object
+})
 </script>

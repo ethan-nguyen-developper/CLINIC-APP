@@ -7,6 +7,8 @@
     </Link>
 
     <div class="mt-4 bg-white p-4 rounded shadow">
+      <input v-model="search" placeholder="Search clinic..." />
+
       <table class="w-full">
         <thead>
           <tr>
@@ -17,7 +19,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="clinic in clinics" :key="clinic.id">
+          <tr v-for="clinic in clinics.data" :key="clinic.id">
             <td>{{ clinic.name }}</td>
             <td>{{ clinic.address }}</td>
             <td>{{ clinic.phone }}</td>
@@ -31,6 +33,16 @@
           </tr>
         </tbody>
       </table>
+
+      <div v-if="clinics.links">
+        <button
+          v-for="link in clinics.links"
+          :key="link.label"
+          v-html="link.label"
+          @click="link.url && router.get(link.url)"
+          :disabled="!link.url"
+        />
+      </div>
     </div>
   </AuthenticatedLayout>
 </template>
@@ -38,14 +50,27 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Link, router } from '@inertiajs/vue3'
-
-defineProps({
-  clinics: Array
-})
+import { ref, watch } from 'vue'
 
 const deleteClinic = (id) => {
   if (confirm('Delete this clinic ?')) {
     router.delete(`/clinics/${id}`)
   }
 }
+
+const props = defineProps({
+  clinics: Object,
+  filters: Object
+})
+
+const search = ref(props.filters.search ?? '')
+
+watch(search, (value) => {
+  router.get('/clinics', {
+    search: value
+  }, {
+    preserveState: true,
+    replace: true
+  })
+})
 </script>
