@@ -7,11 +7,15 @@ use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
+    /**
+     * The root template that is loaded on the first page visit.
+     *
+     * @var string
+     */
+    protected $rootView = 'app';
 
     /**
-     * Determines the current asset version.
-     *
-     * @see https://inertiajs.com/asset-versioning
+     * Determine the current asset version.
      */
     public function version(Request $request): ?string
     {
@@ -21,26 +25,15 @@ class HandleInertiaRequests extends Middleware
     /**
      * Define the props that are shared by default.
      *
-     * @see https://inertiajs.com/shared-data
-     *
      * @return array<string, mixed>
      */
     public function share(Request $request): array
     {
         return [
             ...parent::share($request),
-            //
+            'auth' => [
+                'user' => $request->user(),
+            ],
         ];
-    }
-
-    public function rootView(Request $request)
-    {
-        if ($request->routeIs('auth.*')) {
-            return 'layouts.auth';
-        } else if ($request->routeIs('setup.*')) {
-            return 'layouts.setup';
-        } else {
-            return 'layouts.app';
-        }
     }
 }

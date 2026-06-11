@@ -1,22 +1,32 @@
 <?php
 
-use App\Http\Controllers\SetupController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+use App\Http\Controllers\ClinicController;
 
 Route::get('/', function () {
-    return inertia('Welcome', [
-        'username' => 'yannbanvi'
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
     ]);
 });
 
-Route::get('/auth', function () {
-    return inertia('Welcome', [
-        'username' => 'yannbanvi'
-    ]);
-})->name('auth.index');
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('setup')
-->name('setup.')
-->controller(SetupController::class)
-->group(base_path('routes/customs/setup.php'));
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+require __DIR__.'/auth.php';
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('clinics', ClinicController::class);
+});
