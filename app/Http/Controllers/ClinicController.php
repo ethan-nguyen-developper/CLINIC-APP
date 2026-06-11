@@ -39,6 +39,13 @@ class ClinicController extends Controller
         Clinic::create($validated);
 
         return redirect()->route('clinics.index');
+
+        return redirect()->route('clinics.index')
+            ->with('success', 'Clinic created successfully');
+
+        return back()->withErrors([
+            'name' => 'Name is required'
+        ]);
     }
 
     public function edit(Clinic $clinic)

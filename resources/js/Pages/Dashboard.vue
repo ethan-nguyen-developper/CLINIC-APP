@@ -3,7 +3,8 @@
     <h1>Dashboard</h1>
 
     <div>
-      <p>Total Clinics: {{ stats.clinics }}</p>
+      <p>Clinics: {{ stats.clinics }}</p>
+      <p>Patients: {{ stats.patients }}</p>
     </div>
   </AuthenticatedLayout>
 </template>

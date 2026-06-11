@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PatientController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -35,3 +36,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('patients', PatientController::class);
+});
