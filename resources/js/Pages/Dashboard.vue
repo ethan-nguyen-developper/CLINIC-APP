@@ -12,6 +12,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 
 defineProps({
-  stats: Object
+  stats: Object,
 })
 </script>

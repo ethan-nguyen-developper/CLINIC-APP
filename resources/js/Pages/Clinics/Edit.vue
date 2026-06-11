@@ -29,7 +29,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
-  clinic: Object
+  clinic: Object,
 })
 
 const form = useForm({

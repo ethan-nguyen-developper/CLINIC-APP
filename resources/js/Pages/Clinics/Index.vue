@@ -2,7 +2,10 @@
   <AuthenticatedLayout>
     <h1 class="text-2xl font-bold mb-4">Clinics</h1>
 
-    <Link href="/clinics/create" class="bg-blue-500 text-white px-4 py-2 rounded">
+    <Link
+      href="/clinics/create"
+      class="bg-blue-500 text-white px-4 py-2 rounded"
+    >
       + New Clinic
     </Link>
 
@@ -24,11 +27,9 @@
             <td>{{ clinic.address }}</td>
             <td>{{ clinic.phone }}</td>
             <td>
-            <Link :href="`/clinics/${clinic.id}/edit`">Edit</Link>
+              <Link :href="`/clinics/${clinic.id}/edit`">Edit</Link>
 
-            <button @click="deleteClinic(clinic.id)">
-                Delete
-            </button>
+              <button @click="deleteClinic(clinic.id)">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -60,17 +61,21 @@ const deleteClinic = (id) => {
 
 const props = defineProps({
   clinics: Object,
-  filters: Object
+  filters: Object,
 })
 
 const search = ref(props.filters.search ?? '')
 
 watch(search, (value) => {
-  router.get('/clinics', {
-    search: value
-  }, {
-    preserveState: true,
-    replace: true
-  })
+  router.get(
+    '/clinics',
+    {
+      search: value,
+    },
+    {
+      preserveState: true,
+      replace: true,
+    }
+  )
 })
 </script>
