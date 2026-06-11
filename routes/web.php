@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\DoctorController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -39,4 +40,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('patients', PatientController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('doctors', DoctorController::class);
 });

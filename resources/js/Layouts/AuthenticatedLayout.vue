@@ -8,6 +8,7 @@
         <Link href="/dashboard">Dashboard</Link>
         <Link href="/clinics">Clinics</Link>
         <Link href="/patients">Patients</Link>
+        <Link href="/doctors">Doctors</Link>
         <Link href="/logout" method="post" as="button"> Logout </Link>
       </div>
     </nav>
