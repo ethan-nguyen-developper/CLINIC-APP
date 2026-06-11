@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SetupController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,8 +15,7 @@ Route::get('/auth', function () {
     ]);
 })->name('auth.index');
 
-Route::get('/setup', function () {
-    return inertia('Welcome', [
-        'username' =>'ethan'
-    ]);
-})->name('setup.index');
+Route::prefix('setup')
+->name('setup.')
+->controller(SetupController::class)
+->group(base_path('routes/customs/setup.php'));

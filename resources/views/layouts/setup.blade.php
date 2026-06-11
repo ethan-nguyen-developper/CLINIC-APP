@@ -6,7 +6,7 @@
         'resources/js/adminlte.js',
     ])
 </head>
-<body style="background: red;">
+<body>
     @inertia
 </body>
 </html>
