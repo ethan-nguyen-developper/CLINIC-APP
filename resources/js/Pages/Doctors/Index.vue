@@ -24,7 +24,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Link, router } from '@inertiajs/vue3'
 
 defineProps({
-  doctors: Array
+  doctors: Array,
 })
 
 const destroy = (id) => {

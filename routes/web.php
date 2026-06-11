@@ -8,6 +8,7 @@ use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\AppointmentController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -44,4 +45,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('doctors', DoctorController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('appointments', AppointmentController::class);
 });

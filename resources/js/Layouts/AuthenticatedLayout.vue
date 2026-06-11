@@ -9,6 +9,7 @@
         <Link href="/clinics">Clinics</Link>
         <Link href="/patients">Patients</Link>
         <Link href="/doctors">Doctors</Link>
+        <Link href="/appointments">Appointments</Link>
         <Link href="/logout" method="post" as="button"> Logout </Link>
       </div>
     </nav>
@@ -26,7 +27,7 @@
 import { Link } from '@inertiajs/vue3'
 import { usePage } from '@inertiajs/vue3'
 import { watch } from 'vue'
-import { notify } from "@kyvg/vue3-notification"
+import { notify } from '@kyvg/vue3-notification'
 
 const page = usePage()
 
@@ -36,14 +37,14 @@ watch(
     if (flash?.success) {
       notify({
         type: 'success',
-        text: flash.success
+        text: flash.success,
       })
     }
 
     if (flash?.error) {
       notify({
         type: 'error',
-        text: flash.error
+        text: flash.error,
       })
     }
   },

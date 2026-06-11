@@ -50,20 +50,24 @@ import { ref, watch } from 'vue'
 const props = defineProps({
   patients: Object,
   clinics: Array,
-  filters: Object
+  filters: Object,
 })
 
 const search = ref(props.filters.search ?? '')
 const clinicFilter = ref(props.filters.clinic_id ?? '')
 
 watch([search, clinicFilter], () => {
-  router.get('/patients', {
-    search: search.value,
-    clinic_id: clinicFilter.value
-  }, {
-    preserveState: true,
-    replace: true
-  })
+  router.get(
+    '/patients',
+    {
+      search: search.value,
+      clinic_id: clinicFilter.value,
+    },
+    {
+      preserveState: true,
+      replace: true,
+    }
+  )
 })
 
 const destroy = (id) => {

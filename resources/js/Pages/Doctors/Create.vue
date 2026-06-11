@@ -3,7 +3,6 @@
     <h1>Create Doctor</h1>
 
     <form @submit.prevent="submit">
-
       <input v-model="form.first_name" placeholder="First name" />
       <input v-model="form.last_name" placeholder="Last name" />
       <input v-model="form.speciality" placeholder="Speciality" />
@@ -17,7 +16,6 @@
       </select>
 
       <button type="submit">Save</button>
-
     </form>
   </AuthenticatedLayout>
 </template>
@@ -27,7 +25,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
-  clinics: Array
+  clinics: Array,
 })
 
 const form = useForm({
@@ -36,7 +34,7 @@ const form = useForm({
   speciality: '',
   phone: '',
   email: '',
-  clinic_id: ''
+  clinic_id: '',
 })
 
 const submit = () => {

@@ -3,7 +3,6 @@
     <h1>Edit Patient</h1>
 
     <form @submit.prevent="submit">
-
       <input v-model="form.first_name" />
       <input v-model="form.last_name" />
       <input v-model="form.phone" />
@@ -16,7 +15,6 @@
       </select>
 
       <button type="submit">Update</button>
-
     </form>
   </AuthenticatedLayout>
 </template>
@@ -27,7 +25,7 @@ import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
   patient: Object,
-  clinics: Array
+  clinics: Array,
 })
 
 const form = useForm({
@@ -35,7 +33,7 @@ const form = useForm({
   last_name: props.patient.last_name,
   phone: props.patient.phone,
   birthdate: props.patient.birthdate,
-  clinic_id: props.patient.clinic_id
+  clinic_id: props.patient.clinic_id,
 })
 
 const submit = () => {
