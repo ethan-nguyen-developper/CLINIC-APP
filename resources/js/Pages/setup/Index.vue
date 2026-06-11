@@ -1,76 +1,37 @@
 <template>
-    <div class="container" style="height: 100vh">
-        <div class="row h-100">
-            <div class="col my-auto" style="width: 700px; height: 700px">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h3 class="card-title">Configuration de clinic App</h3>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <StepItems 
-                            :currentStep="currentStep"
-                            :items="stepItems"
-                        />
-                        <StepForms :current-step="currentStep"/>
-                    </div>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button :disabled="actionState.shouldDisablePrevButton" class="btn btn-default" @click="goToPrev">Précédent</button>
-                            <button :disabled="actionState.shouldDisableNextButton" class="btn btn-primary" @click="goToNext">Suivant</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div>
+        <input v-model="form.name" class="form-control" placeholder="Nom clinique">
+
+        <textarea v-model="form.description" class="form-control"></textarea>
+
+        <input v-model="form.country" class="form-control" placeholder="Pays">
+
+        <input v-model="form.city" class="form-control" placeholder="Ville">
+
+        <button @click="submitStep1" class="btn btn-primary">
+            Sauvegarder étape 1
+        </button>
     </div>
 </template>
+
 <script setup>
-import { computed, ref } from 'vue';
-import StepItems from "./step-items/StepItems.vue"
-import StepFormOne from "./step-forms/StepFormOne.vue"
-import StepFormTwo from "./step-forms/StepFormTwo.vue"
-import StepFormThree from "./step-forms/StepFormThree.vue"
-import StepForms from "./step-forms/StepForms.vue"
-const props = defineProps({
-    username: String
-});
+import { router } from '@inertiajs/vue3'
+import { reactive } from 'vue'
 
-const currentStep = ref(1);
+const form = reactive({
+    name: '',
+    description: '',
+    country: '',
+    city: '',
+})
 
-const stepItems = computed(() => [
-    {
-        id: 1,
-        title: "Information sur la clinique",
-        progress: 0
-    },
-    {
-        id: 2,
-        title: "Horaire de service",
-        progress: 0
-    },
-    {
-        id: 3,
-        title: "Administration",
-        progress: 0
-    }
-]);
-
-const goToNext = () => {
-    if (currentStep.value < stepItems?.value?.length) {
-        currentStep.value++;
-    }
-};
-
-const goToPrev = () => {
-    if (currentStep.value > 1) {
-        currentStep.value--;
-    }
-};
-
-const actionState = computed(() => ({
-    shouldDisablePrevButton: currentStep.value <=1,
-    shouldDisableNextButton: currentStep.value === stepItems.value?.length
-}))
+const submitStep1 = () => {
+    router.post('/setup/step-1', form, {
+        onSuccess: () => {
+            console.log('Clinic créée')
+        }
+    })
+}
 </script>
 
 <style scoped>
