@@ -27,6 +27,9 @@ return new class extends Migration
 
             // 🔥 IMPORTANT: éviter double booking
             $table->unique(['doctor_id', 'date', 'time']);
+
+            $table->string('status')->default('pending');
+            // pending | confirmed | cancelled
         });
     }
 

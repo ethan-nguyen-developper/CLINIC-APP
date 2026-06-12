@@ -1,5 +1,5 @@
 <template>
-  <AuthenticatedLayout>
+  <AppLayout>
     <h1>Edit Clinic</h1>
 
     <form @submit.prevent="submit">
@@ -21,11 +21,11 @@
 
       <button type="submit">Update</button>
     </form>
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({

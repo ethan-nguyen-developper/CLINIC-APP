@@ -1,63 +1,60 @@
 <template>
-  <AuthenticatedLayout>
-    <h1 class="text-2xl font-bold mb-4">Clinics</h1>
+  <AppLayout>
+    <PageHeader>
+      <template #title>Clinics</template>
 
-    <Link
-      href="/clinics/create"
-      class="bg-blue-500 text-white px-4 py-2 rounded"
-    >
-      + New Clinic
-    </Link>
+      <template #actions>
+        <Link href="/clinics/create">
+          <Button>+ New Clinic</Button>
+        </Link>
+      </template>
+    </PageHeader>
 
-    <div class="mt-4 bg-white p-4 rounded shadow">
-      <input v-model="search" placeholder="Search clinic..." />
-
-      <table class="w-full">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Phone</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="clinic in clinics.data" :key="clinic.id">
-            <td>{{ clinic.name }}</td>
-            <td>{{ clinic.address }}</td>
-            <td>{{ clinic.phone }}</td>
-            <td>
-              <Link :href="`/clinics/${clinic.id}/edit`">Edit</Link>
-
-              <button @click="deleteClinic(clinic.id)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div v-if="clinics.links">
-        <button
-          v-for="link in clinics.links"
-          :key="link.label"
-          v-html="link.label"
-          @click="link.url && router.get(link.url)"
-          :disabled="!link.url"
-        />
-      </div>
+    <div class="mb-4">
+      <input
+        v-model="search"
+        placeholder="Search clinic..."
+        class="border rounded px-2 py-1 w-full"
+      />
     </div>
-  </AuthenticatedLayout>
+
+    <Table>
+      <thead class="bg-gray-50 text-gray-600 text-left">
+        <tr>
+          <th class="p-3">Name</th>
+          <th class="p-3">Address</th>
+          <th class="p-3">Phone</th>
+          <th class="p-3">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-100">
+        <tr
+          v-for="clinic in clinics.data"
+          :key="clinic.id"
+          class="hover:bg-gray-50 transition"
+        >
+          <td class="p-3">{{ clinic.name }}</td>
+          <td class="p-3">{{ clinic.address }}</td>
+          <td class="p-3">{{ clinic.phone }}</td>
+
+          <td class="p-3 space-x-2">
+            <Link :href="`/clinics/${clinic.id}/edit`">Edit</Link>
+            <button @click="destroy(clinic.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </Table>
+  </AppLayout>
 </template>
 
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import PageHeader from '@/Components/ui/PageHeader.vue'
+import Table from '@/Components/ui/Table.vue'
+import Button from '@/Components/ui/Button.vue'
 import { Link, router } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
-
-const deleteClinic = (id) => {
-  if (confirm('Delete this clinic ?')) {
-    router.delete(`/clinics/${id}`)
-  }
-}
 
 const props = defineProps({
   clinics: Object,
@@ -69,13 +66,17 @@ const search = ref(props.filters.search ?? '')
 watch(search, (value) => {
   router.get(
     '/clinics',
-    {
-      search: value,
-    },
+    { search: value },
     {
       preserveState: true,
       replace: true,
     }
   )
 })
+
+const destroy = (id) => {
+  if (confirm('Delete clinic?')) {
+    router.delete(`/clinics/${id}`)
+  }
+}
 </script>

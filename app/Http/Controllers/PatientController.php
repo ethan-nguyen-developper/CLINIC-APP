@@ -11,24 +11,15 @@ class PatientController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Patient::with('clinic');
+        $query = Patient::query();
 
         if ($request->search) {
-            $query->where(function ($q) use ($request) {
-                $q->where('first_name', 'like', "%{$request->search}%")
-                  ->orWhere('last_name', 'like', "%{$request->search}%")
-                  ->orWhere('phone', 'like', "%{$request->search}%");
-            });
-        }
-
-        if ($request->clinic_id) {
-            $query->where('clinic_id', $request->clinic_id);
+            $query->where('name', 'like', "%{$request->search}%");
         }
 
         return Inertia::render('Patients/Index', [
             'patients' => $query->latest()->paginate(10),
-            'clinics' => Clinic::all(),
-            'filters' => $request->only(['search', 'clinic_id'])
+            'filters' => $request->only('search')
         ]);
     }
 

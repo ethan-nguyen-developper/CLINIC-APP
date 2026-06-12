@@ -1,5 +1,5 @@
 <template>
-  <AuthenticatedLayout>
+  <AppLayout>
     <h1>Create Appointment</h1>
 
     <form @submit.prevent="submit">
@@ -24,11 +24,11 @@
         {{ form.errors.time }}
       </div>
     </form>
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
 import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({

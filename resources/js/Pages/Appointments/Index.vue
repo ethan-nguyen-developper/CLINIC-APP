@@ -1,30 +1,77 @@
 <template>
-  <AuthenticatedLayout>
-    <h1>Appointments</h1>
+  <AppLayout>
+    <PageHeader>
+      <template #title>Appointments</template>
 
-    <Link href="/appointments/create">+ New Appointment</Link>
+      <template #actions>
+        <Link href="/appointments/create">
+          <Button>+ New Appointment</Button>
+        </Link>
+      </template>
+    </PageHeader>
 
-    <table>
-      <tr v-for="a in appointments" :key="a.id">
-        <td>{{ a.patient.first_name }} {{ a.patient.last_name }}</td>
-        <td>{{ a.doctor.first_name }} {{ a.doctor.last_name }}</td>
-        <td>{{ a.date }}</td>
-        <td>{{ a.time }}</td>
+    <div class="mb-4">
+      <input
+        v-model="search"
+        placeholder="Search appointment..."
+        class="border rounded px-2 py-1 w-full"
+      />
+    </div>
 
-        <td>
-          <button @click="destroy(a.id)">Delete</button>
-        </td>
-      </tr>
-    </table>
-  </AuthenticatedLayout>
+    <Table>
+      <thead class="bg-gray-50 text-gray-600 text-left">
+        <tr>
+          <th class="p-3">Date</th>
+          <th class="p-3">Time</th>
+          <th class="p-3">Status</th>
+          <th class="p-3">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-100">
+        <tr
+          v-for="appointment in appointments.data"
+          :key="appointment.id"
+          class="hover:bg-gray-50 transition"
+        >
+          <td class="p-3">{{ appointment.date }}</td>
+          <td class="p-3">{{ appointment.time }}</td>
+          <td class="p-3">{{ appointment.status }}</td>
+
+          <td class="p-3 space-x-2">
+            <Link :href="`/appointments/${appointment.id}/edit`">Edit</Link>
+            <button @click="destroy(appointment.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </Table>
+  </AppLayout>
 </template>
 
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import PageHeader from '@/Components/ui/PageHeader.vue'
+import Table from '@/Components/ui/Table.vue'
+import Button from '@/Components/ui/Button.vue'
 import { Link, router } from '@inertiajs/vue3'
+import { ref, watch } from 'vue'
 
-defineProps({
-  appointments: Array,
+const props = defineProps({
+  appointments: Object,
+  filters: Object,
+})
+
+const search = ref(props.filters.search ?? '')
+
+watch(search, (value) => {
+  router.get(
+    '/appointments',
+    { search: value },
+    {
+      preserveState: true,
+      replace: true,
+    }
+  )
 })
 
 const destroy = (id) => {

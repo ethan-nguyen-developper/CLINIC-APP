@@ -9,10 +9,17 @@ use Inertia\Inertia;
 
 class DoctorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = Doctor::query();
+
+        if ($request->search) {
+            $query->where('name', 'like', "%{$request->search}%");
+        }
+
         return Inertia::render('Doctors/Index', [
-            'doctors' => Doctor::with('clinic')->latest()->get()
+            'doctors' => $query->latest()->paginate(10),
+            'filters' => $request->only('search')
         ]);
     }
 

@@ -10,12 +10,17 @@ use Inertia\Inertia;
 
 class AppointmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = Appointment::query();
+
+        if ($request->search) {
+            $query->where('name', 'like', "%{$request->search}%");
+        }
+
         return Inertia::render('Appointments/Index', [
-            'appointments' => Appointment::with(['doctor', 'patient'])
-                ->latest()
-                ->get()
+            'appointments' => $query->latest()->paginate(10),
+            'filters' => $request->only('search')
         ]);
     }
 
@@ -59,5 +64,18 @@ class AppointmentController extends Controller
         $appointment->delete();
 
         return back()->with('success', 'Appointment deleted');
+    }
+
+    public function updateStatus(Request $request, Appointment $appointment)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,confirmed,cancelled'
+        ]);
+
+        $appointment->update([
+            'status' => $request->status
+        ]);
+
+        return back()->with('success', 'Status updated');
     }
 }

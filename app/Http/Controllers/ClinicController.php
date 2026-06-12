@@ -13,8 +13,7 @@ class ClinicController extends Controller
         $query = Clinic::query();
 
         if ($request->search) {
-            $query->where('name', 'like', "%{$request->search}%")
-                ->orWhere('address', 'like', "%{$request->search}%");
+            $query->where('name', 'like', "%{$request->search}%");
         }
 
         return Inertia::render('Clinics/Index', [
